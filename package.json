@@ -10,10 +10,7 @@
   "scripts": {
     "start": "node server/server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "\u0016https://github.com/sureshunnimenon/emaily"
-  },
+  
   "author": "",
   "license": "MIT",
   "dependencies": {
