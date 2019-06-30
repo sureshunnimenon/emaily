@@ -1,10 +1,37 @@
-const express= require('express')
-const app = express();
+const express= require('express');
+const mongoose = require('mongoose');
 
-app.get('/', (req,res) => res.send({Hi: "there I deployed and made a change!"}))
+const cookieSession = require('cookie-session')
+const passport = require('passport');
+
+const keys = require('./config/keys');
+
+
+require('./models/User')
+require('./services/passport');  // this order is imporrrant. User model should be before passport
+
+const authRoutes = require('./routes/authRoutes')
+
+// connect to mongodb
+mongoose.connect(keys.mongoURI, {useNewUrlParser: true})
+
+const app = express();
+app.use(
+    cookieSession({
+        maxAge: 30*24*60*60*1000,
+        keys: [keys.cookieKey]
+    })
+)
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+authRoutes(app);
 
 const PORT = process.env.PORT || 5000
 
 app.listen(PORT)
+
+
 
 
